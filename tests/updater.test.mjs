@@ -10,6 +10,9 @@ import {zipFixture} from './zip-fixture.mjs';
 const require=createRequire(import.meta.url);
 const {newer,version,releaseInfo,remote,createUpdater}=require('../updater/updater.cjs');
 const exec=promisify(execFile);
+test('all shipped PowerShell scripts parse as UTF-8',{skip:process.platform!=='win32'},async()=>{
+  await exec('powershell.exe',['-NoProfile','-NonInteractive','-Command',"$ErrorActionPreference='Stop'; foreach($file in @('scripts/install.ps1','scripts/package.ps1','updater/extract.ps1')) { $tokens=$null; $errors=$null; [void][Management.Automation.Language.Parser]::ParseInput([IO.File]::ReadAllText((Join-Path (Get-Location) $file)),[ref]$tokens,[ref]$errors); if($errors.Count) { throw ($file + ': ' + ($errors | Out-String)) } }"],{windowsHide:true});
+});
 const bundle='dev.lazyapps.motion';
 const makeRelease=bytes=>({tag_name:'v0.2.0',draft:false,prerelease:false,body:'Une amélioration.',assets:[{name:'lazy-motion-0.2.0.zip',state:'uploaded',size:bytes.length,digest:'sha256:'+crypto.createHash('sha256').update(bytes).digest('hex'),browser_download_url:'https://github.com/3miMaximvs/lazy-motion/releases/download/v0.2.0/lazy-motion-0.2.0.zip'}]});
 async function fixture(t) {

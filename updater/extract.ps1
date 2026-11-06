@@ -14,7 +14,7 @@ try {
     foreach ($entry in $zip.Entries) {
         $name = $entry.FullName.Replace('\','/')
         $parts = $name.TrimEnd('/').Split('/')
-        if ($parts[0] -cne 'dev.lazyapps.motion') { throw 'Racine de l’archive refusée.' }
+        if ($parts[0] -cne 'dev.lazyapps.motion') { throw 'Racine de l''archive refusée.' }
         foreach ($part in $parts) {
             if (!$part -or $part -eq '.' -or $part -eq '..' -or $part -match '[<>:"|?*\x00-\x1f]' -or $part -match '[. ]$' -or $part -match '^(?i:CON|PRN|AUX|NUL|COM[0-9]|LPT[0-9])(?:\.|$)') { throw 'Nom de fichier refusé.' }
         }

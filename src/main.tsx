@@ -114,7 +114,7 @@ function App() {
       </Frame>
       {notice.text&&<p className={notice.error?'notice error':'notice'} role={notice.error?'alert':'status'}>{notice.text}</p>}
     </div>
-    <footer><span>LazyApps</span><Button className={`version version-button${release?.available||installed?' update-available':''}`} variant="ghost" onClick={()=>setAbout(true)} aria-label={installed?'Mise à jour installée, redémarrer After Effects':release?.available?`Version ${release.version} disponible`:'Version et mises à jour'}>{preview?'Aperçu · ':''}v{VERSION}{installed?' · Redémarrer':release?.available?' · Mise à jour':''}<CheckCircleIcon size={17}/></Button></footer>
+    <footer><span>LazyApps</span><Button className={`version version-button${release?.available||installed?' update-available':''}`} variant="ghost" onClick={()=>setAbout(true)} aria-label={installed?'Mise à jour installée, redémarrer After Effects':release?.available?`Version ${release.version} disponible`:'Version et mises à jour'}>{preview?'Aperçu · ':''}v{VERSION}{installed?' · Redémarrer':release?.available?' · Mise à jour':release?' · À jour':updateFailed?' · À vérifier':''}<CheckCircleIcon size={17}/></Button></footer>
   </main></Tooltip.Provider>;
 }
 createRoot(document.getElementById('root')!).render(<App/>);
