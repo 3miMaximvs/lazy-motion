@@ -1,0 +1,6 @@
+* text=auto
+*.png binary
+*.woff2 binary
+*.jsx text eol=lf
+*.ps1 text eol=lf
+*.yml text eol=lf
