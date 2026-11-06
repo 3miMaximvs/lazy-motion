@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ExtensionManifest Version="7.0" ExtensionBundleId="dev.lazyapps.motion" ExtensionBundleVersion="0.2.0" ExtensionBundleName="Lazy Motion">
-  <ExtensionList><Extension Id="dev.lazyapps.motion.panel" Version="0.2.0" /></ExtensionList>
+<ExtensionManifest Version="7.0" ExtensionBundleId="dev.lazyapps.motion" ExtensionBundleVersion="0.2.1" ExtensionBundleName="Lazy Motion">
+  <ExtensionList><Extension Id="dev.lazyapps.motion.panel" Version="0.2.1" /></ExtensionList>
   <ExecutionEnvironment>
     <HostList><Host Name="AEFT" Version="[26.0,26.9]" /></HostList>
     <LocaleList><Locale Code="All" /></LocaleList>

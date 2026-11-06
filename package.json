@@ -1,6 +1,6 @@
 {
   "name": "lazy-motion",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "Les petits outils motion de LazyApps pour After Effects",
   "type": "module",

@@ -1,4 +1,4 @@
-Lazy Motion 0.2.0 ajoute les mises à jour depuis GitHub Releases.
+Lazy Motion 0.2.1 ajoute les mises à jour depuis GitHub Releases et corrige la connexion HTTPS dans le moteur intégré d’Adobe CEP.
 
 - Recherche automatique à l’ouverture et recherche manuelle dans les réglages.
 - Notification lorsqu’une nouvelle version stable est disponible.

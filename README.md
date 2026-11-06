@@ -52,7 +52,7 @@ Logo paresseux et police Geist issus du projet LazyApps de l’utilisateur. Pale
 
 ## Vérifications
 
-- TypeScript et **29 tests automatiques** de comportement, dont les mises à jour, la restauration après échec et les archives malformées (tests d’extraction Windows).
+- TypeScript et **30 tests automatiques** de comportement, dont les mises à jour, la compatibilité HTTPS CEP, la restauration après échec et les archives malformées (tests d’extraction Windows).
 - **10 scénarios natifs dans After Effects 26.0x67**, sur des projets de démonstration uniquement : cascade dans les deux sens, durée, verrouillage, neuf ancrages, rotation/échelle, position animée et séparée, refus du 3D, cadence 29,97 i/s.
 - Comparaison visuelle à la maquette et essais interactifs à 380 px et 300 px de large.
 

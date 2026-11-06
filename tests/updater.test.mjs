@@ -6,6 +6,9 @@ import crypto from 'node:crypto';
 import {createRequire} from 'node:module';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
+import {Script,createContext} from 'node:vm';
+import {EventEmitter} from 'node:events';
+import {Readable} from 'node:stream';
 import {zipFixture} from './zip-fixture.mjs';
 const require=createRequire(import.meta.url);
 const {newer,version,releaseInfo,remote,createUpdater}=require('../updater/updater.cjs');
@@ -42,6 +45,19 @@ test('only the expected public release asset with a GitHub SHA256 digest is acce
 test('downloads forbid HTTP, credentials, unexpected hosts and ports',()=>{
   for(const url of ['http://github.com/x','https://evil.test/x','https://github.com.evil.test/x','https://user:pass@github.com/x','https://github.com:444/x','file:///C:/x'])assert.throws(()=>remote(url));
   assert.equal(remote('https://release-assets.githubusercontent.com/file').protocol,'https:');
+});
+test('release checks work with the two-argument HTTPS interface supplied by CEP',async t=>{
+  const f=await fixture(t), exported={exports:{}};let calls=0;
+  const cepHttps={get(options,listener){
+    assert.equal(typeof listener,'function');assert.equal(options.hostname,'api.github.com');assert.equal(options.path,'/repos/3miMaximvs/lazy-motion/releases/latest');calls++;
+    const req=new EventEmitter();req.setTimeout=()=>req;req.destroy=error=>req.emit('error',error);
+    const response=Readable.from([Buffer.from(JSON.stringify(f.release))]);response.statusCode=200;response.headers={};
+    queueMicrotask(()=>listener(response));return req;
+  }};
+  const context=createContext({module:exported,require:name=>name==='node:https'?cepHttps:require(name),__dirname:path.resolve('updater'),process,Buffer,setTimeout,clearTimeout});
+  new Script(await fs.readFile('updater/updater.cjs','utf8')).runInContext(context);
+  const result=await exported.exports.createUpdater({root:f.root,expected:f.root,storage:f.storage}).check();
+  assert.equal(result.available,true);assert.equal(calls,1);
 });
 test('a corrupt download leaves the current installation untouched',async t=>{
   const f=await fixture(t);const updater=createUpdater({...f.options,request:async url=>url.endsWith('/latest')?f.request(url):Buffer.from('corrupt')});

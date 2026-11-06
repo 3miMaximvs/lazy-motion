@@ -3,6 +3,7 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const https = require('node:https');
+const { URL } = require('node:url');
 const crypto = require('node:crypto');
 const { execFile } = require('node:child_process');
 const { promisify } = require('node:util');
@@ -35,7 +36,9 @@ function download(url, limit, api = false, redirects = 0) {
     const finish = (error, data) => { clearTimeout(deadline); error ? reject(error) : resolve(data); };
     try {
       const u = remote(url, api);
-      req = https.get(u, { headers: { 'User-Agent': 'Lazy-Motion-Updater', 'Accept': api ? 'application/vnd.github+json' : 'application/octet-stream' } }, res => {
+      // CEP's patched HTTPS API supports the two-argument options form.
+      // Its URL/options/callback overload can treat the options as a listener.
+      req = https.get({ protocol:u.protocol, hostname:u.hostname, path:u.pathname+u.search, headers: { 'User-Agent': 'Lazy-Motion-Updater', 'Accept': api ? 'application/vnd.github+json' : 'application/octet-stream' } }, res => {
         if ([301,302,303,307,308].includes(res.statusCode)) {
           res.resume(); clearTimeout(deadline);
           if (api || redirects >= 5 || !res.headers.location) return reject(new Error('Redirection refusée.'));
